@@ -1,0 +1,37 @@
+server:
+  port: 9000
+        
+aas:
+  iam:
+    base-uri: https://localhost.emobix.co.uk:8443
+    iat:
+      dcr-uri: /realms/gaia-x/clients-registrations/openid-connect
+      # SPDX-SnippetBegin
+      # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+      # SPDX-License-Identifier: Apache-2.0
+      # SPDX-FileContributor: Modified by Software GmbH
+      secret: ${IAT_SECRET}
+      # SPDX-SnippetEnd
+    clients:
+      oidc:
+        id: aas-app-oidc
+        # SPDX-SnippetBegin
+        # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+        # SPDX-License-Identifier: Apache-2.0
+        # SPDX-FileContributor: Modified by Software GmbH
+        secret: ${OIDC_SECRET}
+        # SPDX-SnippetEnd
+        redirect-uris: 
+           - ${aas.iam.base-uri}/test/a/aas-test/callback
+      siop:
+        id: aas-app-siop
+        # SPDX-SnippetBegin
+        # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+        # SPDX-License-Identifier: Apache-2.0
+        # SPDX-FileContributor: Modified by Software GmbH
+        secret: ${SIOP_SECRET}
+        # SPDX-SnippetEnd
+        redirect-uris: 
+           - ${aas.iam.base-uri}/test/a/aas-test/callback
+  oidc:
+    issuer: http://auth-server:9000

@@ -1,0 +1,37 @@
+server:
+  port: 9000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+        
+spring:
+  datasource:        
+    url: jdbc:postgresql://${PG_HOST:localhost}:${PG_PORT:5432}/${PG_DB:postgres}
+    # SPDX-SnippetBegin
+    # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+    # SPDX-License-Identifier: Apache-2.0
+    # SPDX-FileContributor: Modified by Software GmbH
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    # SPDX-SnippetEnd
+    platform: postgresql
+          
+aas:
+  iam:
+    base-uri: https://key-server.gxfs.dev          
+  oidc:
+    issuer: https://auth-server.gxfs.dev
+  tsa:
+    url: https://gaiax.vereign.com/tsa/policy
+    duration: 100000 #100sec
+
+logging:
+  level:
+    root: INFO
+    tsclaims: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    eu.xfsc.aas: INFO

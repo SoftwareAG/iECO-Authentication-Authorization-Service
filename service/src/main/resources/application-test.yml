@@ -1,0 +1,21 @@
+server:
+  port: 9000
+
+aas:
+  cache:
+    ttl: 1m
+  iam:
+    iat:
+      # SPDX-SnippetBegin
+      # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+      # SPDX-License-Identifier: Apache-2.0
+      # SPDX-FileContributor: Modified by Software GmbH
+      secret: ${IAT_SECRET}
+      # SPDX-SnippetEnd
+#  token:
+#    ttl: 1m
+  tsa:
+    delay: 100
+    duration: 10000
+    request:
+      count: 1

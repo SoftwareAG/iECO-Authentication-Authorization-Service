@@ -1,0 +1,34 @@
+server:
+  port: 8990
+spring:
+  profiles:
+    active: default
+  application:
+    name: demo-app
+  security:
+    oauth2:
+      client:
+        registration:
+          demo-app-oidc:
+            provider: keycloak
+            client-id: demo-app
+            client-secret: secret
+            scope: 
+              - openid
+              - profile
+        provider:
+          keycloak:
+#          aas-app:
+            # SPDX-SnippetBegin
+            # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+            # SPDX-License-Identifier: Apache-2.0
+            # SPDX-FileContributor: Modified by Software GmbH
+            issuer-uri: ${ISSUER_URI}
+            # SPDX-SnippetEnd
+
+logging:
+  level:
+    root: INFO
+    eu.xfsc.aas: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG

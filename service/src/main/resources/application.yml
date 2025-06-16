@@ -1,0 +1,164 @@
+server:
+  port: 8090
+  servlet:
+    session:
+      timeout: 10m
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    # SPDX-SnippetBegin
+    # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+    # SPDX-License-Identifier: Apache-2.0
+    # SPDX-FileContributor: Modified by Software GmbH
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    # SPDX-SnippetEnd
+    platform: postgresql
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      minimumIdle: 8
+      maximumPoolSize: 128
+  liquibase:
+    change-log: classpath:/liquibase/aas-changelog.xml
+  messages:
+    encoding: ISO-8859-1
+  mvc:
+    log-request-details: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+springdoc:
+  api-docs:
+    path: /api/docs
+    enabled: true
+
+aas:
+  cache:
+    size: 0
+    ttl: 5m
+  iam:
+    base-uri: http://key-server:8080
+    iat:
+      dcr-uri: ${aas.iam.base-uri}/realms/gaia-x/clients-registrations/openid-connect
+      redirect-uri: ${aas.oidc.issuer}/*
+      # SPDX-SnippetBegin
+      # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+      # SPDX-License-Identifier: Apache-2.0
+      # SPDX-FileContributor: Modified by Software GmbH
+      secret: ${IAT_SECRET}
+      # SPDX-SnippetEnd
+  jwk:
+    # SPDX-SnippetBegin
+    # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+    # SPDX-License-Identifier: Apache-2.0
+    # SPDX-FileContributor: Modified by Software GmbH
+    length: ${JWK_LENGTH}
+    secret: ${JWK_SECRET}
+    # SPDX-SnippetEnd
+  oidc:
+    issuer: http://auth-server:${server.port}
+    static-scopes:
+  siop:
+    clock-skew: 5s 
+    issuer: https://self-issued.me/v2
+  # SPDX-SnippetBegin
+  # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+  # SPDX-License-Identifier: Apache-2.0
+  # SPDX-FileContributor: Modified by Software GmbH
+  credential:
+    credential-def-id: ${CREDENTIAL_DEF_ID}
+    schema-id: ${SCHEMA_ID}
+    standard-claim-mappings:
+      sub: ${STANDARD_CLAIM_MAPPING_SUB:}
+      name: ${STANDARD_CLAIM_MAPPING_NAME:}
+      given_name: ${STANDARD_CLAIM_MAPPING_GIVEN_NAME:}
+      family_name: ${STANDARD_CLAIM_MAPPING_FAMILY_NAME:}
+      middle_name: ${STANDARD_CLAIM_MAPPING_MIDDLE_NAME:}
+      nickname: ${STANDARD_CLAIM_MAPPING_NICKNAME:}
+      preferred_username: ${STANDARD_CLAIM_MAPPING_PREFERRED_USERNAME:}
+      profile: ${STANDARD_CLAIM_MAPPING_PROFILE:}
+      picture: ${STANDARD_CLAIM_MAPPING_PICTURE:}
+      website: ${STANDARD_CLAIM_MAPPING_WEBSITE:}
+      email: ${STANDARD_CLAIM_MAPPING_EMAIL:}
+      gender: ${STANDARD_CLAIM_MAPPING_GENDER:}
+      birthdate: ${STANDARD_CLAIM_MAPPING_BIRTHDATE:}
+      zoneinfo: ${STANDARD_CLAIM_MAPPING_ZONEINFO:}
+      locale: ${STANDARD_CLAIM_MAPPING_LOCALE:}
+      phone_number: ${STANDARD_CLAIM_MAPPING_PHONE_NUMBER:}
+      phone_number_verified: ${STANDARD_CLAIM_MAPPING_PHONE_NUMBER_VERIFIED:}
+      address: ${STANDARD_CLAIM_MAPPING_ADDRESS:}
+      updated_at: ${STANDARD_CLAIM_MAPPING_UPDATED_AT:}
+  # SPDX-SnippetEnd
+  scopes:
+    openid:
+      - sub
+      - iss
+      - auth_time
+    profile:
+      - name
+      - given_name
+      - family_name
+      - middle_name
+      - preferred_username
+      - gender
+      - birthdate
+      # SPDX-SnippetBegin
+      # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+      # SPDX-License-Identifier: Apache-2.0
+      # SPDX-FileContributor: Modified by Software GmbH
+      - company
+      # SPDX-SnippetEnd
+      - updated_at
+    email:
+      - email
+      - email_verified
+  token:
+    ttl: 5m
+  tsa:
+    # SPDX-SnippetBegin
+    # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+    # SPDX-License-Identifier: Apache-2.0
+    # SPDX-FileContributor: Modified by Software GmbH
+    enabled: true
+    url: http://auth-server:9000 #In this demo's case "controller/OCMController" serves as a bulit-in makeshift TSA inside the AAS
+    ocm-host: ${OCM_HOST}
+    ocm-endpoint: ${OCM_ENDPOINT}
+    ocm-port: ${OCM_PORT}
+    # SPDX-SnippetEnd
+    repo: aisbl
+    group: example
+    version: 1.0
+    action: evaluation
+    delay: 500 # in milliseconds
+    duration: 30000 # in milliseconds
+    request:
+      # SPDX-SnippetBegin
+      # SPDX-SnippetCopyrightText: Copyright (c) 2025 Software GmbH, Darmstadt, Germany and/or its subsidiaries and/or its affiliates
+      # SPDX-License-Identifier: Apache-2.0
+      # SPDX-FileContributor: Modified by Software GmbH
+      count: 5
+      # SPDX-SnippetEnd
+    statuses:
+      GetLoginProofResult: ACCEPTED
+      GetIatProofResult: ACCEPTED
+    
+logging:
+  level:
+    root: INFO
+    tsclaims: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.jackson2.SecurityJackson2Modules: INFO
+    eu.xfsc.aas: DEBUG
